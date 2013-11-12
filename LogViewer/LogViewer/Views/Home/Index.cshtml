@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<script src="/scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
+<script src="/scripts/jquery.signalR.min.js" type="text/javascript"></script>
+<script src="/signalr/hubs" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var maxRows = 50;
+        var rows = 0;
+        var logEndpoint = $.connection.logEndpoint;
+
+        logEndpoint.receiveLogEntry = function (logItem) {
+            var logrow = $("<tr/>").addClass(logItem.Level)
+            .append($("<td/>", { text: logItem.Level }).addClass("level"))
+            .append($("<td/>", { text: logItem.Timestamp }))
+            .append($("<td/>", { text: logItem.Message }))
+
+            $("#logtable tbody").prepend(logrow);
+            logrow.hide().fadeIn();
+
+            if (rows++ >= maxRows) {
+                $("table tr").last().remove();
+            }
+
+            appendAndScroll(function () {
+                $(".tail-wrap pre").append(logItem.Timestamp + " " + logItem.Level.toUpperCase() + " " + logItem.Message + "\n");
+            });
+
+
+            if ($(".tail-wrap").is(":visible")) {
+                autoScroll();
+            }
+        };
+
+        logEndpoint.setTotalUsers = function (numUsers) {
+            $("#total-users").text(numUsers);
+        };
+
+
+        $.connection.hub.start();
+
+        //$("#color-toggle").click(function () {
+            $("#logtable").toggleClass('highlight');
+            //return false;
+        //});
+
+        //$("#display-toggle").click(function () {
+         $(".table-wrap, .tail-wrap").toggleClass('hidden');
+        //});
+
+        $(".level-filter input:checkbox").change(function () {
+            var level = $(this).attr('name');
+            if ($(this).is(":checked")) {
+                logEndpoint.watchLevel(level);
+            }
+            else {
+                logEndpoint.unwatchLevel(level);
+            }
+        });
+
+        function appendAndScroll(appendFunc) {
+            var shouldScroll = ($(document).scrollTop() + $(window).height()) === $(document).height();
+            appendFunc();
+            if (shouldScroll) {
+                $(window).scrollTop(document.body.scrollHeight);
+            }
+        }
+    });
+</script>
+
+<h2>Log Viewer</h2>
+<span>Number of users: <span id="total-users"></span></span>
+<div class="level-filter">
+<span>Trace:</span><input type="checkbox" name="trace"/>
+<span>Debug:</span><input type="checkbox" name="debug" checked="checked" />
+<span>Info:</span><input type="checkbox" name="info" checked="checked" />
+<span>Warn:</span><input type="checkbox" name="warn" checked="checked" />
+<span>Error:</span><input type="checkbox" name="error" checked="checked" />
+<span>Fatal:</span><input type="checkbox" name="fatal" checked="checked" />
+</div>
+
+<div class="table-wrap">
+<table id="logtable" class="highlight"  >
+    <thead><tr><th class="level">Level</th><th class="timestamp">Timestamp</th><th class="message">Message</th></tr></thead>
+<tbody></tbody>
+</table>
+</div>
+<div class="tail-wrap hidden">
+<pre>
+</pre>
+</div>

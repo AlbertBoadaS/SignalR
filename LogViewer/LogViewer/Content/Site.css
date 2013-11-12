@@ -1,0 +1,151 @@
+body
+{
+    font-size: .85em;
+    font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
+    color: #232323;
+    background-color: #fff;
+}
+
+header,
+footer,
+nav,
+section {
+    display: block;
+}
+
+/* Styles for basic forms
+-----------------------------------------------------------*/
+
+fieldset 
+{
+    border:1px solid #ddd;
+    padding:0 1.4em 1.4em 1.4em;
+    margin:0 0 1.5em 0;
+}
+
+legend 
+{
+    font-size:1.2em;
+    font-weight: bold;
+}
+
+textarea 
+{
+    min-height: 75px;
+}
+
+.editor-label 
+{
+    margin: 1em 0 0 0;
+}
+
+.editor-field 
+{
+    margin:0.5em 0 0 0;
+}
+
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error
+{
+    color: #ff0000;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+.input-validation-error
+{
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors
+{
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid
+{
+    display: none;
+}
+
+
+
+
+table {
+border-collapse:collapse;
+border-spacing:0;
+width:960px;
+}
+
+th {
+text-align:left;
+background-color:Gray;
+color:#FFF;
+}
+
+table tr,table th {
+border:1px solid #000;
+}
+
+table th.level {
+width:50px;
+}
+
+table th.timestamp {
+width:250px;
+}
+
+tr > td.level {
+text-transform:uppercase;
+}
+
+.highlight .error {
+color:#FFF;
+background-color:#F08080;
+}
+
+.highlight .warn {
+color:#FFF;
+background-color:orange;
+}
+
+.highlight .trace {
+background-color:#E0F0FF;
+}
+
+.highlight .debug {
+background-color:#476BB2;
+color:#FFF;
+}
+
+.highlight .info {
+background-color:#9CF;
+}
+
+.highlight .fatal {
+color:#FFF;
+background-color:red;
+}
+
+td.level {
+font-weight:700;
+}
+
+td,th {
+border:1px solid #000;
+padding:5px;
+}
+
+.level-filter input {
+padding-right:20px;
+}
+.hidden  
+{
+display:none;
+}
